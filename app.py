@@ -71,34 +71,59 @@ def create_chatbot():
 def list_chatbots():
     business_id = int(get_jwt_identity())
     chatbots = Chatbot.query.filter_by(business_id=business_id).all()
-    return jsonify([{'id': c.id, 'name': c.name, 'description': c.description} for c in chatbots])
+    return jsonify([{
+        'id': c.id,
+        'name': c.name,
+        'description': c.description,
+        'training_data': c.training_data
+    } for c in chatbots])
+
+@app.route('/chatbot/update/<int:chatbot_id>', methods=['PUT'])
+@jwt_required()
+def update_chatbot(chatbot_id):
+    business_id = int(get_jwt_identity())
+    chatbot = Chatbot.query.filter_by(id=chatbot_id, business_id=business_id).first_or_404()
+    data = request.json
+    chatbot.name = data.get('name', chatbot.name)
+    chatbot.description = data.get('description', chatbot.description)
+    if data.get('training_data'):
+        chatbot.training_data = data['training_data']
+    db.session.commit()
+    return jsonify({'message': 'Ενημερώθηκε!'})
+
+@app.route('/chatbot/delete/<int:chatbot_id>', methods=['DELETE'])
+@jwt_required()
+def delete_chatbot(chatbot_id):
+    business_id = int(get_jwt_identity())
+    chatbot = Chatbot.query.filter_by(id=chatbot_id, business_id=business_id).first_or_404()
+    for conv in chatbot.conversations:
+        for msg in conv.messages:
+            db.session.delete(msg)
+        db.session.delete(conv)
+    db.session.delete(chatbot)
+    db.session.commit()
+    return jsonify({'message': 'Διαγράφηκε!'})
 
 @app.route('/chat/<int:chatbot_id>', methods=['POST'])
 def chat(chatbot_id):
     chatbot = Chatbot.query.get_or_404(chatbot_id)
     data = request.json
 
-    conv = Conversation(chatbot_id=chatbot_id)
-    db.session.add(conv)
-    db.session.commit()
-
     response = client.chat.completions.create(
-  model="llama-3.3-70b-versatile",
+        model="llama-3.3-70b-versatile",
         messages=[
             {
                 "role": "system",
-                "content": f"""You are the AI assistant of '{chatbot.name}'.
+                "content": f"""IMPORTANT: You must respond ONLY in Greek. Never use any other language.
+Είσαι ο AI βοηθός της επιχείρησης '{chatbot.name}'.
 {chatbot.description}
 
-Business information:
+Πληροφορίες επιχείρησης:
 {chatbot.training_data}
 
-CRITICAL RULES:
-- Answer ONLY in Greek language. Never use any other language.
-- Never use English, Vietnamese, French or any other language.
-- Only Greek alphabet and words.
-- Base answers only on the business information above.
-- If you don't know something, say 'Επικοινωνήστε μαζί μας για περισσότερες πληροφορίες'."""
+Απάντα ΜΟΝΟ βασισμένος στις παραπάνω πληροφορίες.
+Αν δεν ξέρεις κάτι, πες 'Επικοινωνήστε μαζί μας για περισσότερες πληροφορίες'.
+Απάντα ΠΑΝΤΑ στα ελληνικά."""
             },
             {"role": "user", "content": data['message']}
         ]
@@ -106,13 +131,17 @@ CRITICAL RULES:
 
     ai_text = response.choices[0].message.content
     return jsonify({'response': ai_text})
+
 @app.route('/widget/<int:chatbot_id>')
 def widget(chatbot_id):
     chatbot = Chatbot.query.get_or_404(chatbot_id)
+    base_url = request.host_url.rstrip('/')
     return f"""
     <script>
     (function() {{
         var chatbotId = {chatbot_id};
+        var baseUrl = '{base_url}';
+        
         var btn = document.createElement('div');
         btn.innerHTML = '💬';
         btn.style = 'position:fixed;bottom:20px;right:20px;width:55px;height:55px;background:#a78bfa;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:24px;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.3);';
@@ -122,12 +151,12 @@ def widget(chatbot_id):
         chat.innerHTML = `
             <div style="padding:15px;border-bottom:1px solid #333;display:flex;justify-content:space-between;align-items:center;">
                 <span style="color:#a78bfa;font-weight:bold;">🤖 {chatbot.name}</span>
-                <span id="close-chat" style="color:#888;cursor:pointer;font-size:18px;">✕</span>
+                <span id="close-chat-btn" style="color:#888;cursor:pointer;font-size:18px;">✕</span>
             </div>
-            <div id="chat-msgs" style="flex:1;overflow-y:auto;padding:15px;display:flex;flex-direction:column;gap:10px;"></div>
+            <div id="widget-msgs" style="flex:1;overflow-y:auto;padding:15px;display:flex;flex-direction:column;gap:10px;"></div>
             <div style="padding:12px;border-top:1px solid #333;display:flex;gap:8px;">
-                <input id="chat-inp" placeholder="Γράψε μήνυμα..." style="flex:1;padding:10px;border:1px solid #333;border-radius:8px;background:#0f0f1a;color:#fff;font-size:14px;outline:none;" />
-                <button id="chat-send" style="background:#a78bfa;border:none;color:#fff;padding:10px 14px;border-radius:8px;cursor:pointer;">➤</button>
+                <input id="widget-inp" placeholder="Γράψε μήνυμα..." style="flex:1;padding:10px;border:1px solid #333;border-radius:8px;background:#0f0f1a;color:#fff;font-size:14px;outline:none;" />
+                <button id="widget-send" style="background:#a78bfa;border:none;color:#fff;padding:10px 14px;border-radius:8px;cursor:pointer;">➤</button>
             </div>
         `;
         
@@ -138,13 +167,13 @@ def widget(chatbot_id):
             chat.style.display = chat.style.display === 'none' ? 'flex' : 'none';
         }};
         
-        document.getElementById('close-chat').onclick = function() {{
+        document.getElementById('close-chat-btn').onclick = function() {{
             chat.style.display = 'none';
         }};
         
         async function sendMsg() {{
-            var inp = document.getElementById('chat-inp');
-            var msgs = document.getElementById('chat-msgs');
+            var inp = document.getElementById('widget-inp');
+            var msgs = document.getElementById('widget-msgs');
             var text = inp.value.trim();
             if (!text) return;
             inp.value = '';
@@ -160,7 +189,7 @@ def widget(chatbot_id):
             msgs.appendChild(aiDiv);
             msgs.scrollTop = msgs.scrollHeight;
             
-            var res = await fetch('http://127.0.0.1:5000/chat/' + chatbotId, {{
+            var res = await fetch(baseUrl + '/chat/' + chatbotId, {{
                 method: 'POST',
                 headers: {{'Content-Type': 'application/json'}},
                 body: JSON.stringify({{message: text}})
@@ -170,13 +199,14 @@ def widget(chatbot_id):
             msgs.scrollTop = msgs.scrollHeight;
         }}
         
-        document.getElementById('chat-send').onclick = sendMsg;
-        document.getElementById('chat-inp').addEventListener('keypress', function(e) {{
+        document.getElementById('widget-send').onclick = sendMsg;
+        document.getElementById('widget-inp').addEventListener('keypress', function(e) {{
             if (e.key === 'Enter') sendMsg();
         }});
     }})();
     </script>
-    """
+    """, 200, {{'Content-Type': 'application/javascript'}}
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
