@@ -9,345 +9,359 @@
         body { font-family: Arial, sans-serif; background: #0f0f1a; color: #fff; }
         .nav { background: #1a1a2e; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; }
         .nav h1 { color: #a78bfa; font-size: 20px; }
-        .nav button { background: #a78bfa; border: none; color: #fff; padding: 8px 16px; border-radius: 8px; cursor: pointer; }
+        .nav-right { display: flex; align-items: center; gap: 15px; }
+        .nav-name { color: #888; font-size: 14px; }
+        .btn-logout { background: #333; border: none; color: #fff; padding: 8px 16px; border-radius: 8px; cursor: pointer; }
         .container { max-width: 1000px; margin: 40px auto; padding: 20px; }
-        .auth-box { max-width: 400px; margin: 0 auto; background: #1a1a2e; border-radius: 16px; padding: 30px; border: 1px solid #333; }
-        .auth-box h2 { color: #a78bfa; text-align: center; margin-bottom: 20px; }
-        input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #333; border-radius: 8px; background: #0f0f1a; color: #fff; font-size: 14px; }
-        textarea { height: 120px; resize: vertical; }
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; background: #a78bfa; color: #fff; font-size: 16px; cursor: pointer; margin-top: 10px; }
+        .auth-box { max-width: 420px; margin: 0 auto; background: #1a1a2e; border-radius: 16px; padding: 30px; border: 1px solid #333; }
+        .auth-box h2 { color: #a78bfa; text-align: center; margin-bottom: 20px; font-size: 22px; }
+        input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #333; border-radius: 8px; background: #0f0f1a; color: #fff; font-size: 14px; outline: none; }
+        input:focus, select:focus, textarea:focus { border-color: #a78bfa; }
+        textarea { height: 130px; resize: vertical; }
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; background: #a78bfa; color: #fff; font-size: 15px; cursor: pointer; margin-top: 10px; transition: background 0.2s; }
         .btn:hover { background: #7c3aed; }
-        .btn-secondary { background: #333; }
-        .toggle { text-align: center; margin-top: 15px; color: #888; cursor: pointer; }
-        .toggle span { color: #a78bfa; }
+        .btn-gray { background: #2a2a3e; }
+        .btn-gray:hover { background: #333; }
+        .toggle { text-align: center; margin-top: 15px; color: #888; cursor: pointer; font-size: 14px; }
+        .toggle span { color: #a78bfa; font-weight: bold; }
         .dashboard { display: none; }
-        .dashboard h2 { color: #a78bfa; margin-bottom: 20px; }
-        .chatbot-card { background: #1a1a2e; border-radius: 12px; padding: 20px; margin-bottom: 15px; border: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
-        .chatbot-card h3 { color: #fff; }
-        .chatbot-card p { color: #888; font-size: 13px; margin-top: 5px; }
+        .dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .dash-header h2 { color: #a78bfa; font-size: 22px; }
+        .btn-new { background: #a78bfa; border: none; color: #fff; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; }
+        .btn-new:hover { background: #7c3aed; }
+        .chatbot-card { background: #1a1a2e; border-radius: 12px; padding: 18px 20px; margin-bottom: 12px; border: 1px solid #2a2a3e; display: flex; justify-content: space-between; align-items: center; transition: border-color 0.2s; }
+        .chatbot-card:hover { border-color: #a78bfa; }
+        .card-info h3 { color: #fff; font-size: 16px; margin-bottom: 4px; }
+        .card-info p { color: #666; font-size: 13px; }
         .card-btns { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
-        .card-btns button { width: auto; padding: 8px 12px; font-size: 12px; margin: 0; border-radius: 8px; border: none; cursor: pointer; color: #fff; }
+        .card-btns button { padding: 7px 12px; font-size: 12px; border-radius: 7px; border: none; cursor: pointer; color: #fff; font-weight: 500; transition: opacity 0.2s; }
+        .card-btns button:hover { opacity: 0.85; }
         .btn-test { background: #a78bfa; }
         .btn-code { background: #0ea5e9; }
         .btn-edit { background: #f59e0b; }
         .btn-delete { background: #ef4444; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 100; justify-content: center; align-items: center; }
-        .modal-box { background: #1a1a2e; border-radius: 16px; padding: 30px; width: 500px; border: 1px solid #333; }
-        .modal-box h3 { color: #a78bfa; margin-bottom: 20px; }
-        .chat-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 100; justify-content: center; align-items: center; }
-        .chat-box { background: #1a1a2e; border-radius: 16px; width: 500px; height: 600px; display: flex; flex-direction: column; border: 1px solid #333; }
-        .chat-header { padding: 15px 20px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
-        .chat-header h3 { color: #a78bfa; }
-        .close-btn { background: #333; border: none; color: #fff; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
-        .chat-messages { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
-        .msg { max-width: 75%; padding: 10px 14px; border-radius: 10px; font-size: 14px; line-height: 1.5; }
-        .msg-user { background: #a78bfa; align-self: flex-end; }
-        .msg-ai { background: #0f0f1a; border: 1px solid #333; align-self: flex-start; }
-        .chat-input-area { display: flex; padding: 12px; gap: 8px; border-top: 1px solid #333; }
-        .chat-input-area input { margin: 0; }
-        .chat-input-area button { width: auto; padding: 12px 16px; margin: 0; border-radius: 8px; border: none; background: #a78bfa; color: #fff; cursor: pointer; }
-        .empty-state { text-align: center; color: #888; padding: 40px; }
-        .code-box { background: #0f0f1a; border: 1px solid #333; border-radius: 8px; padding: 15px; font-family: monospace; font-size: 13px; color: #a78bfa; word-break: break-all; margin: 15px 0; }
+        .empty-state { text-align: center; color: #555; padding: 60px 20px; }
+        .empty-state p { margin-bottom: 10px; font-size: 16px; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); z-index: 100; justify-content: center; align-items: center; }
+        .modal-box { background: #1a1a2e; border-radius: 16px; padding: 30px; width: 520px; border: 1px solid #333; max-height: 90vh; overflow-y: auto; }
+        .modal-box h3 { color: #a78bfa; margin-bottom: 20px; font-size: 18px; }
+        .code-display { background: #0f0f1a; border: 1px solid #333; border-radius: 8px; padding: 15px; font-family: monospace; font-size: 12px; color: #7dd3fc; word-break: break-all; margin: 12px 0; line-height: 1.6; }
+        .chat-modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); z-index: 100; justify-content: center; align-items: center; }
+        .chat-box { background: #1a1a2e; border-radius: 16px; width: 480px; height: 580px; display: flex; flex-direction: column; border: 1px solid #333; }
+        .chat-head { padding: 15px 20px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
+        .chat-head h3 { color: #a78bfa; font-size: 16px; }
+        .close-btn { background: #2a2a3e; border: none; color: #888; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 16px; }
+        .close-btn:hover { color: #fff; }
+        .chat-msgs { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
+        .msg { max-width: 78%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; }
+        .msg-user { background: #a78bfa; align-self: flex-end; border-radius: 12px 12px 2px 12px; }
+        .msg-ai { background: #0f0f1a; border: 1px solid #2a2a3e; align-self: flex-start; border-radius: 12px 12px 12px 2px; }
+        .chat-inp-area { display: flex; padding: 12px; gap: 8px; border-top: 1px solid #333; }
+        .chat-inp-area input { margin: 0; flex: 1; }
+        .chat-inp-area button { width: auto; padding: 10px 16px; margin: 0; border-radius: 8px; border: none; background: #a78bfa; color: #fff; cursor: pointer; font-size: 16px; }
+        .chat-inp-area button:hover { background: #7c3aed; }
     </style>
 </head>
 <body>
-    <div class="nav">
-        <h1>🤖 ChatBot SaaS</h1>
-        <button id="logout-btn" style="display:none" onclick="logout()">Αποσύνδεση</button>
-    </div>
 
-    <div class="container">
-        <div id="auth-section">
-            <div class="auth-box">
-                <h2 id="auth-title">Σύνδεση Επιχείρησης</h2>
-                <div id="register-fields" style="display:none">
-                    <input type="text" id="business-name" placeholder="Όνομα επιχείρησης" />
-                    <select id="business-type">
-                        <option value="">Τύπος επιχείρησης</option>
-                        <option value="restaurant">Εστιατόριο</option>
-                        <option value="hotel">Ξενοδοχείο</option>
-                        <option value="shop">Κατάστημα</option>
-                        <option value="other">Άλλο</option>
-                    </select>
-                </div>
-                <input type="email" id="email" placeholder="Email" />
-                <input type="password" id="password" placeholder="Κωδικός" />
-                <button class="btn" onclick="handleAuth()">Σύνδεση</button>
-                <div class="toggle" onclick="toggleAuth()">
-                    Δεν έχεις λογαριασμό; <span id="toggle-text">Εγγραφή</span>
-                </div>
+<div class="nav">
+    <h1>🤖 ChatBot SaaS</h1>
+    <div class="nav-right">
+        <span class="nav-name" id="nav-name"></span>
+        <button class="btn-logout" id="logout-btn" style="display:none" onclick="logout()">Αποσύνδεση</button>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- AUTH -->
+    <div id="auth-section">
+        <div class="auth-box">
+            <h2 id="auth-title">Σύνδεση Επιχείρησης</h2>
+            <div id="register-fields" style="display:none">
+                <input type="text" id="business-name" placeholder="Όνομα επιχείρησης" />
+                <select id="business-type">
+                    <option value="">Τύπος επιχείρησης</option>
+                    <option value="restaurant">Εστιατόριο</option>
+                    <option value="hotel">Ξενοδοχείο</option>
+                    <option value="shop">Κατάστημα</option>
+                    <option value="salon">Κομμωτήριο</option>
+                    <option value="other">Άλλο</option>
+                </select>
             </div>
-        </div>
-
-        <div class="dashboard" id="dashboard">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                <h2>🤖 Τα Chatbots μου</h2>
-                <button class="btn" style="width:auto; padding:10px 20px;" onclick="showCreateModal()">+ Νέο Chatbot</button>
-            </div>
-            <div id="chatbots-list"></div>
-        </div>
-    </div>
-
-    <!-- Create/Edit Modal -->
-    <div class="modal" id="create-modal">
-        <div class="modal-box">
-            <h3 id="modal-title">➕ Νέο Chatbot</h3>
-            <input type="hidden" id="edit-bot-id" value="" />
-            <input type="text" id="bot-name" placeholder="Όνομα chatbot" />
-            <input type="text" id="bot-description" placeholder="Σύντομη περιγραφή" />
-            <textarea id="bot-training" placeholder="Πληροφορίες επιχείρησης (ώρες, μενού, υπηρεσίες, τιμές...)"></textarea>
-            <button class="btn" onclick="saveChatbot()">Αποθήκευση</button>
-            <button class="btn btn-secondary" onclick="closeModal()" style="margin-top:8px;">Ακύρωση</button>
-        </div>
-    </div>
-
-    <!-- Code Modal -->
-    <div class="modal" id="code-modal">
-        <div class="modal-box">
-            <h3>📋 Κώδικας Ενσωμάτωσης</h3>
-            <p style="color:#888; font-size:13px; margin-bottom:10px;">Αντίγραψε αυτόν τον κώδικα και επικόλλησέ τον στο site σου πριν το &lt;/body&gt;</p>
-            <div class="code-box" id="code-display"></div>
-            <button class="btn" onclick="copyCode()">📋 Αντιγραφή</button>
-            <button class="btn btn-secondary" onclick="closeCodeModal()" style="margin-top:8px;">Κλείσιμο</button>
-        </div>
-    </div>
-
-    <!-- Chat Modal -->
-    <div class="chat-modal" id="chat-modal">
-        <div class="chat-box">
-            <div class="chat-header">
-                <h3 id="chat-title">Test Chatbot</h3>
-                <button class="close-btn" onclick="closeChatModal()">✕</button>
-            </div>
-            <div class="chat-messages" id="chat-messages"></div>
-            <div class="chat-input-area">
-                <input type="text" id="chat-input" placeholder="Γράψε μήνυμα..." />
-                <button onclick="sendTestMessage()">➤</button>
+            <input type="email" id="email" placeholder="Email" />
+            <input type="password" id="password" placeholder="Κωδικός" />
+            <button class="btn" onclick="handleAuth()" id="auth-btn">Σύνδεση</button>
+            <div class="toggle" onclick="toggleAuth()">
+                Δεν έχεις λογαριασμό; <span id="toggle-text">Εγγραφή</span>
             </div>
         </div>
     </div>
 
-    <script>
-        let token = localStorage.getItem('saas_token');
-        let isLogin = true;
-        let currentBotId = null;
-        let currentCode = '';
-        const BASE_URL = 'https://chatbot-saas-production-b8b1.up.railway.app';
+    <!-- DASHBOARD -->
+    <div class="dashboard" id="dashboard">
+        <div class="dash-header">
+            <h2>🤖 Τα Chatbots μου</h2>
+            <button class="btn-new" onclick="showCreateModal()">+ Νέο Chatbot</button>
+        </div>
+        <div id="chatbots-list"></div>
+    </div>
 
-        if (token) showDashboard();
+</div>
 
-        function toggleAuth() {
-            isLogin = !isLogin;
-            document.getElementById('auth-title').textContent = isLogin ? 'Σύνδεση Επιχείρησης' : 'Εγγραφή Επιχείρησης';
-            document.getElementById('toggle-text').textContent = isLogin ? 'Εγγραφή' : 'Σύνδεση';
-            document.getElementById('register-fields').style.display = isLogin ? 'none' : 'block';
-            document.querySelector('.auth-box .btn').textContent = isLogin ? 'Σύνδεση' : 'Εγγραφή';
-        }
+<!-- CREATE / EDIT MODAL -->
+<div class="modal-overlay" id="form-modal">
+    <div class="modal-box">
+        <h3 id="modal-title">➕ Νέο Chatbot</h3>
+        <input type="hidden" id="edit-id" />
+        <input type="text" id="bot-name" placeholder="Όνομα chatbot (π.χ. Βοηθός Εστιατορίου)" />
+        <input type="text" id="bot-desc" placeholder="Σύντομη περιγραφή" />
+        <textarea id="bot-data" placeholder="Πληροφορίες επιχείρησης: ώρες λειτουργίας, μενού, υπηρεσίες, τιμές, διεύθυνση, τηλέφωνο..."></textarea>
+        <button class="btn" onclick="saveChatbot()">💾 Αποθήκευση</button>
+        <button class="btn btn-gray" onclick="closeFormModal()" style="margin-top:8px;">Ακύρωση</button>
+    </div>
+</div>
 
-        async function handleAuth() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+<!-- CODE MODAL -->
+<div class="modal-overlay" id="code-modal">
+    <div class="modal-box">
+        <h3>📋 Κώδικας Ενσωμάτωσης</h3>
+        <p style="color:#666; font-size:13px; margin-bottom:5px;">Αντίγραψε αυτόν τον κώδικα και επικόλλησέ τον στο site σου πριν το &lt;/body&gt;:</p>
+        <div class="code-display" id="code-text"></div>
+        <button class="btn" onclick="copyCode()">📋 Αντιγραφή Κώδικα</button>
+        <button class="btn btn-gray" onclick="closeCodeModal()" style="margin-top:8px;">Κλείσιμο</button>
+    </div>
+</div>
 
-            if (isLogin) {
-                const res = await fetch('/login', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({email, password})
-                });
-                const data = await res.json();
-                if (data.token) {
-                    localStorage.setItem('saas_token', data.token);
-                    localStorage.setItem('saas_name', data.name);
-                    token = data.token;
-                    showDashboard();
-                } else {
-                    alert(data.error || 'Σφάλμα σύνδεσης');
-                }
-            } else {
-                const name = document.getElementById('business-name').value;
-                const business_type = document.getElementById('business-type').value;
-                const res = await fetch('/register', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({name, email, password, business_type})
-                });
-                const data = await res.json();
-                if (data.message) {
-                    alert('Επιτυχής εγγραφή! Συνδέσου τώρα.');
-                    toggleAuth();
-                } else {
-                    alert(data.error || 'Σφάλμα εγγραφής');
-                }
-            }
-        }
+<!-- CHAT TEST MODAL -->
+<div class="chat-modal-overlay" id="chat-modal">
+    <div class="chat-box">
+        <div class="chat-head">
+            <h3 id="chat-title">Test Chatbot</h3>
+            <button class="close-btn" onclick="closeChatModal()">✕</button>
+        </div>
+        <div class="chat-msgs" id="chat-msgs"></div>
+        <div class="chat-inp-area">
+            <input type="text" id="chat-inp" placeholder="Γράψε μήνυμα..." />
+            <button onclick="sendMsg()">➤</button>
+        </div>
+    </div>
+</div>
 
-        function showDashboard() {
-            document.getElementById('auth-section').style.display = 'none';
-            document.getElementById('dashboard').style.display = 'block';
-            document.getElementById('logout-btn').style.display = 'block';
-            loadChatbots();
-        }
+<script>
+    let token = localStorage.getItem('saas_token');
+    let isLogin = true;
+    let currentBotId = null;
+    let currentCode = '';
 
-        async function loadChatbots() {
-            const res = await fetch('/chatbot/list', {
-                headers: {'Authorization': `Bearer ${token}`}
-            });
-            const chatbots = await res.json();
-            const list = document.getElementById('chatbots-list');
+    if (token) showDashboard();
 
-            if (chatbots.length === 0) {
-                list.innerHTML = '<div class="empty-state"><p>Δεν έχεις chatbots ακόμα!</p><p>Δημιούργησε το πρώτο σου chatbot.</p></div>';
-                return;
-            }
+    function toggleAuth() {
+        isLogin = !isLogin;
+        document.getElementById('auth-title').textContent = isLogin ? 'Σύνδεση Επιχείρησης' : 'Εγγραφή Επιχείρησης';
+        document.getElementById('toggle-text').textContent = isLogin ? 'Εγγραφή' : 'Σύνδεση';
+        document.getElementById('register-fields').style.display = isLogin ? 'none' : 'block';
+        document.getElementById('auth-btn').textContent = isLogin ? 'Σύνδεση' : 'Εγγραφή';
+    }
 
-            list.innerHTML = chatbots.map(bot => `
-                <div class="chatbot-card">
-                    <div>
-                        <h3>🤖 ${bot.name}</h3>
-                        <p>${bot.description || 'Χωρίς περιγραφή'}</p>
-                    </div>
-                    <div class="card-btns">
-                        <button class="btn-test" onclick="testChatbot(${bot.id}, '${bot.name}')">▶ Test</button>
-                        <button class="btn-code" onclick="showCode(${bot.id})">📋 Κώδικας</button>
-                        <button class="btn-edit" onclick="editChatbot(${bot.id}, '${bot.name}', '${bot.description}')">✏️ Επεξεργασία</button>
-                        <button class="btn-delete" onclick="deleteChatbot(${bot.id}, '${bot.name}')">🗑️ Διαγραφή</button>
-                    </div>
-                </div>
-            `).join('');
-        }
+    async function handleAuth() {
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+        if (!email || !password) { alert('Συμπλήρωσε email και κωδικό!'); return; }
 
-        function showCreateModal() {
-            document.getElementById('modal-title').textContent = '➕ Νέο Chatbot';
-            document.getElementById('edit-bot-id').value = '';
-            document.getElementById('bot-name').value = '';
-            document.getElementById('bot-description').value = '';
-            document.getElementById('bot-training').value = '';
-            document.getElementById('create-modal').style.display = 'flex';
-        }
-
-        function editChatbot(id, name, description) {
-            document.getElementById('modal-title').textContent = '✏️ Επεξεργασία Chatbot';
-            document.getElementById('edit-bot-id').value = id;
-            document.getElementById('bot-name').value = name;
-            document.getElementById('bot-description').value = description;
-            document.getElementById('bot-training').value = '';
-            document.getElementById('create-modal').style.display = 'flex';
-        }
-
-        function closeModal() {
-            document.getElementById('create-modal').style.display = 'none';
-        }
-
-        async function saveChatbot() {
-            const name = document.getElementById('bot-name').value;
-            const description = document.getElementById('bot-description').value;
-            const training_data = document.getElementById('bot-training').value;
-            const editId = document.getElementById('edit-bot-id').value;
-
-            if (editId) {
-                const res = await fetch(`/chatbot/update/${editId}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({name, description, training_data})
-                });
-                const data = await res.json();
-                if (data.message) {
-                    closeModal();
-                    loadChatbots();
-                }
-            } else {
-                const res = await fetch('/chatbot/create', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({name, description, training_data})
-                });
-                const data = await res.json();
-                if (data.id) {
-                    closeModal();
-                    loadChatbots();
-                }
-            }
-        }
-
-        async function deleteChatbot(id, name) {
-            if (!confirm(`Είσαι σίγουρος ότι θέλεις να διαγράψεις το "${name}";`)) return;
-            const res = await fetch(`/chatbot/delete/${id}`, {
-                method: 'DELETE',
-                headers: {'Authorization': `Bearer ${token}`}
-            });
-            const data = await res.json();
-            if (data.message) loadChatbots();
-        }
-
-        function showCode(id) {
-            currentCode = `<script src="${BASE_URL}/widget/${id}"><\/script>`;
-            document.getElementById('code-display').textContent = currentCode;
-            document.getElementById('code-modal').style.display = 'flex';
-        }
-
-        function copyCode() {
-            navigator.clipboard.writeText(currentCode);
-            alert('✅ Αντιγράφηκε!');
-        }
-
-        function closeCodeModal() {
-            document.getElementById('code-modal').style.display = 'none';
-        }
-
-        function testChatbot(id, name) {
-            currentBotId = id;
-            document.getElementById('chat-title').textContent = `Test: ${name}`;
-            document.getElementById('chat-messages').innerHTML = '';
-            document.getElementById('chat-modal').style.display = 'flex';
-        }
-
-        function closeChatModal() {
-            document.getElementById('chat-modal').style.display = 'none';
-        }
-
-        document.getElementById('chat-input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') sendTestMessage();
-        });
-
-        async function sendTestMessage() {
-            const input = document.getElementById('chat-input');
-            const messages = document.getElementById('chat-messages');
-            const text = input.value.trim();
-            if (!text) return;
-            input.value = '';
-
-            const userMsg = document.createElement('div');
-            userMsg.className = 'msg msg-user';
-            userMsg.textContent = text;
-            messages.appendChild(userMsg);
-
-            const typingMsg = document.createElement('div');
-            typingMsg.className = 'msg msg-ai';
-            typingMsg.textContent = '⏳ Γράφει...';
-            messages.appendChild(typingMsg);
-            messages.scrollTop = messages.scrollHeight;
-
-            const res = await fetch(`/chat/${currentBotId}`, {
+        if (isLogin) {
+            const res = await fetch('/login', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({message: text})
+                body: JSON.stringify({email, password})
             });
             const data = await res.json();
-            typingMsg.textContent = data.response;
-            messages.scrollTop = messages.scrollHeight;
+            if (data.token) {
+                localStorage.setItem('saas_token', data.token);
+                localStorage.setItem('saas_name', data.name);
+                token = data.token;
+                showDashboard();
+            } else {
+                alert(data.error || 'Σφάλμα σύνδεσης');
+            }
+        } else {
+            const name = document.getElementById('business-name').value.trim();
+            const business_type = document.getElementById('business-type').value;
+            if (!name) { alert('Βάλε όνομα επιχείρησης!'); return; }
+            const res = await fetch('/register', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({name, email, password, business_type})
+            });
+            const data = await res.json();
+            if (data.message) {
+                alert('✅ Επιτυχής εγγραφή! Συνδέσου τώρα.');
+                toggleAuth();
+            } else {
+                alert(data.error || 'Σφάλμα εγγραφής');
+            }
+        }
+    }
+
+    function showDashboard() {
+        document.getElementById('auth-section').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        document.getElementById('logout-btn').style.display = 'block';
+        document.getElementById('nav-name').textContent = localStorage.getItem('saas_name') || '';
+        loadChatbots();
+    }
+
+    async function loadChatbots() {
+        const res = await fetch('/chatbot/list', {
+            headers: {'Authorization': `Bearer ${token}`}
+        });
+        const chatbots = await res.json();
+        const list = document.getElementById('chatbots-list');
+
+        if (!chatbots.length) {
+            list.innerHTML = '<div class="empty-state"><p>🤖 Δεν έχεις chatbots ακόμα!</p><p>Δημιούργησε το πρώτο σου chatbot.</p></div>';
+            return;
         }
 
-        function logout() {
-            localStorage.removeItem('saas_token');
-            localStorage.removeItem('saas_name');
-            location.reload();
+        list.innerHTML = chatbots.map(bot => `
+            <div class="chatbot-card">
+                <div class="card-info">
+                    <h3>🤖 ${bot.name}</h3>
+                    <p>${bot.description || 'Χωρίς περιγραφή'}</p>
+                </div>
+                <div class="card-btns">
+                    <button class="btn-test" onclick="testChatbot(${bot.id}, '${bot.name}')">▶ Test</button>
+                    <button class="btn-code" onclick="showCode(${bot.id})">📋 Κώδικας</button>
+                    <button class="btn-edit" onclick="editChatbot(${bot.id}, '${bot.name}', '${bot.description || ''}', \`${(bot.training_data || '').replace(/`/g, "'")}\`)">✏️ Επεξεργασία</button>
+                    <button class="btn-delete" onclick="deleteChatbot(${bot.id}, '${bot.name}')">🗑️ Διαγραφή</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function showCreateModal() {
+        document.getElementById('modal-title').textContent = '➕ Νέο Chatbot';
+        document.getElementById('edit-id').value = '';
+        document.getElementById('bot-name').value = '';
+        document.getElementById('bot-desc').value = '';
+        document.getElementById('bot-data').value = '';
+        document.getElementById('form-modal').style.display = 'flex';
+    }
+
+    function editChatbot(id, name, description, training_data) {
+        document.getElementById('modal-title').textContent = '✏️ Επεξεργασία Chatbot';
+        document.getElementById('edit-id').value = id;
+        document.getElementById('bot-name').value = name;
+        document.getElementById('bot-desc').value = description;
+        document.getElementById('bot-data').value = training_data;
+        document.getElementById('form-modal').style.display = 'flex';
+    }
+
+    function closeFormModal() {
+        document.getElementById('form-modal').style.display = 'none';
+    }
+
+    async function saveChatbot() {
+        const name = document.getElementById('bot-name').value.trim();
+        const description = document.getElementById('bot-desc').value.trim();
+        const training_data = document.getElementById('bot-data').value.trim();
+        const editId = document.getElementById('edit-id').value;
+
+        if (!name) { alert('Βάλε όνομα chatbot!'); return; }
+
+        if (editId) {
+            const res = await fetch(`/chatbot/update/${editId}`, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
+                body: JSON.stringify({name, description, training_data})
+            });
+            const data = await res.json();
+            if (data.message) { closeFormModal(); loadChatbots(); }
+        } else {
+            const res = await fetch('/chatbot/create', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
+                body: JSON.stringify({name, description, training_data})
+            });
+            const data = await res.json();
+            if (data.id) { closeFormModal(); loadChatbots(); }
         }
-    </script>
+    }
+
+    async function deleteChatbot(id, name) {
+        if (!confirm(`🗑️ Είσαι σίγουρος ότι θέλεις να διαγράψεις το "${name}";`)) return;
+        const res = await fetch(`/chatbot/delete/${id}`, {
+            method: 'DELETE',
+            headers: {'Authorization': `Bearer ${token}`}
+        });
+        const data = await res.json();
+        if (data.message) { loadChatbots(); }
+    }
+
+    function showCode(id) {
+        currentCode = `<script src="https://chatbot-saas-production-b8b1.up.railway.app/widget/${id}"><\/script>`;
+        document.getElementById('code-text').textContent = currentCode;
+        document.getElementById('code-modal').style.display = 'flex';
+    }
+
+    function copyCode() {
+        navigator.clipboard.writeText(currentCode).then(() => {
+            alert('✅ Αντιγράφηκε! Επικόλλησέ τον στο site σου πριν το </body>');
+        });
+    }
+
+    function closeCodeModal() {
+        document.getElementById('code-modal').style.display = 'none';
+    }
+
+    function testChatbot(id, name) {
+        currentBotId = id;
+        document.getElementById('chat-title').textContent = `🤖 Test: ${name}`;
+        document.getElementById('chat-msgs').innerHTML = '';
+        document.getElementById('chat-modal').style.display = 'flex';
+    }
+
+    function closeChatModal() {
+        document.getElementById('chat-modal').style.display = 'none';
+    }
+
+    document.getElementById('chat-inp').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') sendMsg();
+    });
+
+    async function sendMsg() {
+        const inp = document.getElementById('chat-inp');
+        const msgs = document.getElementById('chat-msgs');
+        const text = inp.value.trim();
+        if (!text) return;
+        inp.value = '';
+
+        const userDiv = document.createElement('div');
+        userDiv.className = 'msg msg-user';
+        userDiv.textContent = text;
+        msgs.appendChild(userDiv);
+
+        const aiDiv = document.createElement('div');
+        aiDiv.className = 'msg msg-ai';
+        aiDiv.textContent = '⏳ Γράφει...';
+        msgs.appendChild(aiDiv);
+        msgs.scrollTop = msgs.scrollHeight;
+
+        const res = await fetch(`/chat/${currentBotId}`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({message: text})
+        });
+        const data = await res.json();
+        aiDiv.textContent = data.response;
+        msgs.scrollTop = msgs.scrollHeight;
+    }
+
+    function logout() {
+        localStorage.removeItem('saas_token');
+        localStorage.removeItem('saas_name');
+        location.reload();
+    }
+</script>
 </body>
 </html>
