@@ -120,16 +120,17 @@ def chat(chatbot_id):
         messages=[
             {
                 "role": "system",
-                "content": f"""IMPORTANT: You must respond ONLY in Greek. Never use any other language.
-Είσαι ο AI βοηθός της επιχείρησης '{chatbot.name}'.
+                "content": f"""You are an AI assistant for the business '{chatbot.name}'.
 {chatbot.description}
 
-Πληροφορίες επιχείρησης:
+Business information:
 {chatbot.training_data}
 
-Απάντα ΜΟΝΟ βασισμένος στις παραπάνω πληροφορίες.
-Αν δεν ξέρεις κάτι, πες 'Επικοινωνήστε μαζί μας για περισσότερες πληροφορίες'.
-Απάντα ΠΑΝΤΑ στα ελληνικά."""
+STRICT RULES:
+- Respond ONLY in Greek language using ONLY Greek and Latin alphabet characters
+- NEVER use Chinese, Japanese, Vietnamese, Russian or any other characters
+- If you don't know something say: 'Επικοινωνήστε μαζί μας για περισσότερες πληροφορίες'
+- Base answers ONLY on the business information above"""
             },
             {"role": "user", "content": data['message']}
         ]
