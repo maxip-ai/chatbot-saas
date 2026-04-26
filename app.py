@@ -23,6 +23,11 @@ db.init_app(app)
 jwt = JWTManager(app)
 client = Groq(api_key=os.environ.get('GROQ_API_KEY'))
 
+with app.app_context():
+    db.drop_all()
+    db.create_all()
+    print("✅ Βάση δεδομένων έτοιμη!")
+
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -206,14 +211,7 @@ def widget(chatbot_id):
     }})();
     </script>
     """, 200, {{'Content-Type': 'application/javascript'}}
-  
-    if __name__ == '__main__':
-    with app.app_context():
-        db.drop_all()
-        db.create_all()
-        print("✅ Βάση δεδομένων έτοιμη!")
-    with app.app_context():
-        db.create_all()
-        print("✅ Βάση δεδομένων έτοιμη!")
+
+if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=True)
