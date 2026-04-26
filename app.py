@@ -4,9 +4,6 @@ from flask_cors import CORS
 from groq import Groq
 from models import db, Business, Chatbot, Conversation, Message
 from dotenv import load_dotenv
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
-import secrets
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -26,30 +23,6 @@ db.init_app(app)
 jwt = JWTManager(app)
 client = Groq(api_key=os.environ.get('GROQ_API_KEY'))
 
-def στείλε_email(email, token):
-    message = Mail(
-        from_email=os.environ.get('FROM_EMAIL'),
-        to_emails=email,
-        subject='Επαλήθευση Email - ChatBot SaaS',
-        html_content=f'''
-        <div style="font-family:Arial;max-width:500px;margin:0 auto;padding:30px;background:#0f0f1a;color:#fff;border-radius:16px;">
-            <h2 style="color:#a78bfa;">🤖 ChatBot SaaS</h2>
-            <h3>Καλώς ήρθες!</h3>
-            <p style="color:#888;">Κάνε κλικ παρακάτω για να επαληθεύσεις το email σου:</p>
-            <a href="https://chatbot-saas-production-b8b1.up.railway.app/verify/{token}"
-               style="display:inline-block;background:#a78bfa;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;margin:20px 0;">
-               ✅ Επαλήθευση Email
-            </a>
-            <p style="color:#555;font-size:12px;">Αν δεν έκανες εγγραφή, αγνόησε αυτό το email.</p>
-        </div>
-        '''
-    )
-    try:
-        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
-        sg.send(message)
-    except Exception as e:
-        print(f"Email error: {e}")
-
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -59,37 +32,16 @@ def register():
     data = request.json
     if Business.query.filter_by(email=data['email']).first():
         return jsonify({'error': 'Το email υπάρχει ήδη'}), 400
-
-    token = secrets.token_urlsafe(32)
     business = Business(
         name=data['name'],
         email=data['email'],
         password=generate_password_hash(data['password']),
         business_type=data.get('business_type', ''),
-        verification_token=token,
-        is_verified=False
+        is_verified=True
     )
     db.session.add(business)
     db.session.commit()
-    στείλε_email(data['email'], token)
-    return jsonify({'message': 'Επιτυχής εγγραφή! Έλεγξε το email σου!'})
-
-@app.route('/verify/<token>')
-def verify_email(token):
-    business = Business.query.filter_by(verification_token=token).first_or_404()
-    business.is_verified = True
-    business.verification_token = None
-    db.session.commit()
-    return '''
-    <html><body style="font-family:Arial;text-align:center;padding:50px;background:#0f0f1a;color:#fff;">
-        <h2 style="color:#a78bfa;">✅ Email επαληθεύτηκε!</h2>
-        <p>Μπορείς τώρα να συνδεθείς.</p>
-        <a href="https://chatbot-saas-production-b8b1.up.railway.app"
-           style="display:inline-block;background:#a78bfa;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;margin-top:20px;">
-           Σύνδεση
-        </a>
-    </body></html>
-    '''
+    return jsonify({'message': 'Επιτυχής εγγραφή!'})
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -97,8 +49,6 @@ def login():
     business = Business.query.filter_by(email=data['email']).first()
     if not business or not check_password_hash(business.password, data['password']):
         return jsonify({'error': 'Λάθος email ή κωδικός'}), 401
-    if not business.is_verified:
-        return jsonify({'error': '⚠️ Επαλήθευσε πρώτα το email σου!'}), 401
     token = create_access_token(identity=str(business.id))
     return jsonify({'token': token, 'name': business.name})
 
